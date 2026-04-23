@@ -409,13 +409,31 @@ h3 { font-size: clamp(1.3rem, 2vw, 1.7rem); }
 }
 .theme-preview-img {
   position: absolute; inset: 0;
-  background-size: cover; background-position: center;
-  transition: opacity .35s ease, transform .8s ease;
+  transition: opacity .35s ease;
+  display: grid; place-items: center;
+}
+.theme-preview-img::before {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 25% 30%, rgba(255,255,255,.22) 18px, transparent 20px),
+    radial-gradient(circle at 75% 25%, rgba(255,255,255,.18) 12px, transparent 14px),
+    radial-gradient(circle at 80% 75%, rgba(255,255,255,.14) 20px, transparent 22px),
+    radial-gradient(circle at 20% 80%, rgba(255,255,255,.2) 14px, transparent 16px);
+  pointer-events: none;
+}
+.theme-preview-img i {
+  font-size: clamp(80px, 9vw, 120px);
+  color: rgba(255,255,255,.85);
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,.2));
+  z-index: 1;
+  transform: translateY(-10%);
 }
 .theme-preview-gradient {
   position: absolute; inset: 0;
-  background: linear-gradient(180deg, transparent 40%, rgba(30,17,23,.75) 100%);
+  background: linear-gradient(180deg, transparent 40%, rgba(30,17,23,.7) 100%);
+  z-index: 2;
 }
+.theme-preview-caption { z-index: 3; }
 .theme-preview-caption {
   position: absolute; left: 16px; right: 16px; bottom: 14px;
   color: #fff;
@@ -506,9 +524,10 @@ h3 { font-size: clamp(1.3rem, 2vw, 1.7rem); }
 .trust-stat .num {
   font-family: var(--font-head); font-weight: 800; font-size: 2.2rem; line-height: 1;
   color: #fff;
-  display: flex; align-items: baseline; gap: 6px;
+  display: flex; align-items: baseline; gap: 0;
 }
-.trust-stat .num .star { color: var(--brand-yellow); font-size: 1.5rem; }
+.trust-stat .num .star { color: var(--brand-yellow); font-size: 1.5rem; margin-right: 8px; }
+.trust-stat .num .suffix { margin-left: 2px; }
 .trust-stat .caption {
   font-size: 13px; color: #E8D5C8; margin-top: 8px; font-weight: 500;
   letter-spacing: .02em;
@@ -547,6 +566,7 @@ h3 { font-size: clamp(1.3rem, 2vw, 1.7rem); }
   overflow: hidden;
   aspect-ratio: 4 / 3;
   box-shadow: var(--shadow-md);
+  display: grid; place-items: center;
 }
 .service-media img { width: 100%; height: 100%; object-fit: cover; }
 .service-media .badge {
@@ -556,8 +576,49 @@ h3 { font-size: clamp(1.3rem, 2vw, 1.7rem); }
   font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
   box-shadow: var(--shadow-sm);
   display: inline-flex; align-items: center; gap: 7px;
+  z-index: 2;
 }
 .service-media .badge i { color: var(--cta); }
+
+/* Custom color-blocked panels for services — distinctive, no-broken-image */
+.svc-panel {
+  width: 100%; height: 100%;
+  position: relative;
+  display: grid; place-items: center;
+  overflow: hidden;
+}
+.svc-panel .glyph {
+  font-size: clamp(100px, 16vw, 180px);
+  z-index: 1;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,.15));
+}
+.svc-panel::before, .svc-panel::after {
+  content: ""; position: absolute; border-radius: 50%;
+}
+.svc-panel::before {
+  width: 180px; height: 180px;
+  right: -40px; top: -40px;
+  background: rgba(255,255,255,.18);
+}
+.svc-panel::after {
+  width: 120px; height: 120px;
+  left: -30px; bottom: -30px;
+  background: rgba(0,0,0,.1);
+}
+.svc-panel.p-coral { background: linear-gradient(135deg, #FF6B95 0%, var(--cta) 100%); color: #FFF2E5; }
+.svc-panel.p-teal  { background: linear-gradient(135deg, #2ED0C2 0%, #14857C 100%); color: #F0FDF9; }
+.svc-panel.p-yellow{ background: linear-gradient(135deg, #FFD155 0%, #F39400 100%); color: #2A1808; }
+.svc-panel.p-plum  { background: linear-gradient(135deg, #4A2A3D 0%, #1E1117 100%); color: var(--brand-yellow); }
+.svc-panel.p-blush { background: linear-gradient(135deg, #FFB0C1 0%, #E96792 100%); color: #311621; }
+.svc-panel.p-sky   { background: linear-gradient(135deg, #8FC7E8 0%, #3D8BB8 100%); color: #FFFBEB; }
+.svc-panel .tile-pattern {
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,.14) 6px, transparent 7px),
+    radial-gradient(circle at 80% 70%, rgba(255,255,255,.1) 8px, transparent 9px),
+    radial-gradient(circle at 50% 90%, rgba(255,255,255,.12) 5px, transparent 6px);
+  pointer-events: none;
+}
 
 .service-copy .svc-eyebrow {
   font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
@@ -654,6 +715,23 @@ h3 { font-size: clamp(1.3rem, 2vw, 1.7rem); }
 .theme-card-img {
   position: absolute; inset: 0;
   background-size: cover; background-position: center;
+  background-color: var(--fallback, #9E6E88);
+}
+.theme-card-img::before {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 25% 30%, rgba(255,255,255,.2) 12px, transparent 14px),
+    radial-gradient(circle at 70% 20%, rgba(255,255,255,.15) 8px, transparent 10px),
+    radial-gradient(circle at 80% 80%, rgba(255,255,255,.12) 14px, transparent 16px),
+    radial-gradient(circle at 20% 85%, rgba(255,255,255,.16) 10px, transparent 12px);
+  pointer-events: none; mix-blend-mode: overlay;
+}
+.theme-card-glyph {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -62%);
+  font-size: clamp(80px, 15vw, 130px);
+  color: rgba(255,255,255,.75);
+  z-index: 1;
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,.25));
 }
 .theme-card-overlay {
   position: absolute; inset: 0;
@@ -1338,8 +1416,8 @@ form.contact-form {
         </div>
         <span class="live-dot">Live gallery</span>
       </div>
-      <div class="theme-preview" id="themePreview">
-        <div class="theme-preview-img" id="themeImg" style="background-image: url('https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=900&h=680&fit=crop')"></div>
+      <div class="theme-preview" id="themePreview" style="background: linear-gradient(160deg, #FFB3C6 0%, #E04B7C 100%)">
+        <div class="theme-preview-img" id="themeImg"><i class="fa-sharp fa-solid fa-crown" id="themeIcon"></i></div>
         <div class="theme-preview-gradient"></div>
         <div class="theme-preview-caption">
           <span id="themeCat">Princess Party</span>
@@ -1391,7 +1469,7 @@ form.contact-form {
       <div class="caption"><strong>124 Google reviews</strong><br>and counting</div>
     </div>
     <div class="trust-stat">
-      <div class="num"><span data-count="17">0</span><span>K+</span></div>
+      <div class="num"><span data-count="17">0</span><span class="suffix">K+</span></div>
       <div class="caption"><strong>Facebook community</strong><br>of Miami parents</div>
     </div>
   </div>
@@ -1409,7 +1487,10 @@ form.contact-form {
     <!-- Band 1: Rock Climbing -->
     <div class="service-band">
       <div class="service-media">
-        <img src="https://images.unsplash.com/photo-1522163182402-834f871fd851?w=900&h=680&fit=crop" alt="Kids rock climbing wall indoor party venue Miami" loading="lazy">
+        <div class="svc-panel p-coral">
+          <div class="tile-pattern"></div>
+          <i class="fa-sharp fa-solid fa-mountain glyph" aria-hidden="true"></i>
+        </div>
         <span class="badge"><i class="fa-sharp fa-solid fa-mountain"></i>Tallest on 137th Ave</span>
       </div>
       <div class="service-copy">
@@ -1426,7 +1507,10 @@ form.contact-form {
     <!-- Band 2: Spider Mountain -->
     <div class="service-band">
       <div class="service-media">
-        <img src="https://images.unsplash.com/photo-1547131652-3e81be2dec99?w=900&h=680&fit=crop" alt="Spider Mountain climbing tower Dori's Paradise Party" loading="lazy">
+        <div class="svc-panel p-plum">
+          <div class="tile-pattern"></div>
+          <i class="fa-sharp fa-solid fa-spider glyph" aria-hidden="true"></i>
+        </div>
         <span class="badge"><i class="fa-sharp fa-solid fa-spider"></i>Signature attraction</span>
       </div>
       <div class="service-copy">
@@ -1443,7 +1527,10 @@ form.contact-form {
     <!-- Band 3: Bounce house -->
     <div class="service-band">
       <div class="service-media">
-        <img src="https://images.unsplash.com/photo-1519074002996-a69e7ac46a42?w=900&h=680&fit=crop" alt="Indoor bounce house inflatables Miami party venue" loading="lazy">
+        <div class="svc-panel p-yellow">
+          <div class="tile-pattern"></div>
+          <i class="fa-sharp fa-solid fa-child-reaching glyph" aria-hidden="true"></i>
+        </div>
         <span class="badge"><i class="fa-sharp fa-solid fa-child"></i>Toddler-safe zone</span>
       </div>
       <div class="service-copy">
@@ -1460,8 +1547,11 @@ form.contact-form {
     <!-- Band 4: Video games -->
     <div class="service-band">
       <div class="service-media">
-        <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=900&h=680&fit=crop" alt="Video games arcade at kids party venue" loading="lazy">
-        <span class="badge"><i class="fa-sharp fa-solid fa-gamepad-modern"></i>All-you-can-play</span>
+        <div class="svc-panel p-teal">
+          <div class="tile-pattern"></div>
+          <i class="fa-sharp fa-solid fa-gamepad glyph" aria-hidden="true"></i>
+        </div>
+        <span class="badge"><i class="fa-sharp fa-solid fa-gamepad"></i>All-you-can-play</span>
       </div>
       <div class="service-copy">
         <div class="svc-eyebrow">Activity 04</div>
@@ -1477,7 +1567,10 @@ form.contact-form {
     <!-- Band 5: Adventure play -->
     <div class="service-band">
       <div class="service-media">
-        <img src="https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=900&h=680&fit=crop" alt="Indoor adventure play structures Miami birthday party" loading="lazy">
+        <div class="svc-panel p-sky">
+          <div class="tile-pattern"></div>
+          <i class="fa-sharp fa-solid fa-person-hiking glyph" aria-hidden="true"></i>
+        </div>
         <span class="badge"><i class="fa-sharp fa-solid fa-compass"></i>Full adventure section</span>
       </div>
       <div class="service-copy">
@@ -1494,7 +1587,10 @@ form.contact-form {
     <!-- Band 6: Food -->
     <div class="service-band">
       <div class="service-media">
-        <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=900&h=680&fit=crop" alt="Kids birthday party food pizza Miami" loading="lazy">
+        <div class="svc-panel p-blush">
+          <div class="tile-pattern"></div>
+          <i class="fa-sharp fa-solid fa-pizza-slice glyph" aria-hidden="true"></i>
+        </div>
         <span class="badge"><i class="fa-sharp fa-solid fa-pizza-slice"></i>Real food included</span>
       </div>
       <div class="service-copy">
@@ -1520,7 +1616,8 @@ form.contact-form {
 
     <div class="themes-scroll" id="themesScroll">
       <article class="theme-card">
-        <div class="theme-card-img" style="background-image:url('https://images.unsplash.com/photo-1621774935257-65f37ea8da47?w=600&h=750&fit=crop')"></div>
+        <div class="theme-card-img" style="background: linear-gradient(160deg, #FFB3C6 0%, #E04B7C 100%)"></div>
+        <i class="fa-sharp fa-solid fa-crown theme-card-glyph" aria-hidden="true"></i>
         <div class="theme-card-overlay"></div>
         <span class="theme-card-tag">Top requested</span>
         <div class="theme-card-content">
@@ -1529,7 +1626,8 @@ form.contact-form {
         </div>
       </article>
       <article class="theme-card">
-        <div class="theme-card-img" style="background-image:url('https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&h=750&fit=crop')"></div>
+        <div class="theme-card-img" style="background: linear-gradient(160deg, #E4C1F9 0%, #A277D6 100%)"></div>
+        <i class="fa-sharp fa-solid fa-hat-wizard theme-card-glyph" aria-hidden="true"></i>
         <div class="theme-card-overlay"></div>
         <div class="theme-card-content">
           <small>Unicorn</small>
@@ -1537,7 +1635,8 @@ form.contact-form {
         </div>
       </article>
       <article class="theme-card">
-        <div class="theme-card-img" style="background-image:url('https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=600&h=750&fit=crop')"></div>
+        <div class="theme-card-img" style="background: linear-gradient(160deg, #FF6B6B 0%, #A01A1A 100%)"></div>
+        <i class="fa-sharp fa-solid fa-circle-user theme-card-glyph" aria-hidden="true"></i>
         <div class="theme-card-overlay"></div>
         <div class="theme-card-content">
           <small>Mickey &amp; Minnie</small>
@@ -1545,7 +1644,8 @@ form.contact-form {
         </div>
       </article>
       <article class="theme-card">
-        <div class="theme-card-img" style="background-image:url('https://images.unsplash.com/photo-1602413025345-23edc0d1b0a1?w=600&h=750&fit=crop')"></div>
+        <div class="theme-card-img" style="background: linear-gradient(160deg, #70D6C3 0%, #10827A 100%)"></div>
+        <i class="fa-sharp fa-solid fa-fish-fins theme-card-glyph" aria-hidden="true"></i>
         <div class="theme-card-overlay"></div>
         <div class="theme-card-content">
           <small>Little Mermaid</small>
@@ -1553,7 +1653,8 @@ form.contact-form {
         </div>
       </article>
       <article class="theme-card">
-        <div class="theme-card-img" style="background-image:url('https://images.unsplash.com/photo-1533038590840-1cde6e668a91?w=600&h=750&fit=crop')"></div>
+        <div class="theme-card-img" style="background: linear-gradient(160deg, #A5D668 0%, #3B6F1E 100%)"></div>
+        <i class="fa-sharp fa-solid fa-tree theme-card-glyph" aria-hidden="true"></i>
         <div class="theme-card-overlay"></div>
         <div class="theme-card-content">
           <small>Jungle</small>
@@ -1561,7 +1662,8 @@ form.contact-form {
         </div>
       </article>
       <article class="theme-card">
-        <div class="theme-card-img" style="background-image:url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=750&fit=crop')"></div>
+        <div class="theme-card-img" style="background: linear-gradient(160deg, #FFD580 0%, #D95A3C 100%)"></div>
+        <i class="fa-sharp fa-solid fa-butterfly theme-card-glyph" aria-hidden="true"></i>
         <div class="theme-card-overlay"></div>
         <span class="theme-card-tag">New this year</span>
         <div class="theme-card-content">
@@ -1570,7 +1672,8 @@ form.contact-form {
         </div>
       </article>
       <article class="theme-card">
-        <div class="theme-card-img" style="background-image:url('https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=600&h=750&fit=crop')"></div>
+        <div class="theme-card-img" style="background: linear-gradient(160deg, #C9A676 0%, #5E3821 100%)"></div>
+        <i class="fa-sharp fa-solid fa-skull-crossbones theme-card-glyph" aria-hidden="true"></i>
         <div class="theme-card-overlay"></div>
         <div class="theme-card-content">
           <small>Pirate</small>
@@ -1578,7 +1681,8 @@ form.contact-form {
         </div>
       </article>
       <article class="theme-card">
-        <div class="theme-card-img" style="background-image:url('https://images.unsplash.com/photo-1520869309377-88c9274a27c2?w=600&h=750&fit=crop')"></div>
+        <div class="theme-card-img" style="background: linear-gradient(160deg, #B8E3FF 0%, #3F8EBF 100%)"></div>
+        <i class="fa-sharp fa-solid fa-snowflake theme-card-glyph" aria-hidden="true"></i>
         <div class="theme-card-overlay"></div>
         <div class="theme-card-content">
           <small>Frozen</small>
@@ -1586,7 +1690,8 @@ form.contact-form {
         </div>
       </article>
       <article class="theme-card">
-        <div class="theme-card-img" style="background-image:url('https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=600&h=750&fit=crop')"></div>
+        <div class="theme-card-img" style="background: linear-gradient(160deg, #FFC66E 0%, #D07812 100%)"></div>
+        <i class="fa-sharp fa-solid fa-helmet-safety theme-card-glyph" aria-hidden="true"></i>
         <div class="theme-card-overlay"></div>
         <div class="theme-card-content">
           <small>Construction</small>
@@ -1594,7 +1699,8 @@ form.contact-form {
         </div>
       </article>
       <article class="theme-card">
-        <div class="theme-card-img" style="background-image:url('https://images.unsplash.com/photo-1541692641319-981cc79ee10a?w=600&h=750&fit=crop')"></div>
+        <div class="theme-card-img" style="background: linear-gradient(160deg, #FF6464 0%, #2B4A9E 100%)"></div>
+        <i class="fa-sharp fa-solid fa-spider theme-card-glyph" aria-hidden="true"></i>
         <div class="theme-card-overlay"></div>
         <div class="theme-card-content">
           <small>Spider-Man</small>
@@ -2020,57 +2126,18 @@ document.querySelectorAll('.mm-link').forEach(a => a.addEventListener('click', (
 // Theme Picker (signature hero element)
 // =========================
 const themes = {
-  princess: {
-    cat: 'Princess Party',
-    detail: 'Pink + gold castle backdrop · set up for a 5th birthday',
-    bg: '#FDDAE3',
-    img: 'https://images.unsplash.com/photo-1621774935257-65f37ea8da47?w=900&h=680&fit=crop'
-  },
-  unicorn: {
-    cat: 'Unicorn Party',
-    detail: 'Pastel rainbow with cloud-arch · age 4–8 favorite',
-    bg: '#FFE9F1',
-    img: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=900&h=680&fit=crop'
-  },
-  mickey: {
-    cat: 'Mickey &amp; Minnie',
-    detail: 'Classic red, black &amp; polka-dots · toddler hit',
-    bg: '#FFE2D5',
-    img: 'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=900&h=680&fit=crop'
-  },
-  mermaid: {
-    cat: 'Little Mermaid',
-    detail: 'Teal-gold undersea · mid-summer favorite',
-    bg: '#D7F2EC',
-    img: 'https://images.unsplash.com/photo-1602413025345-23edc0d1b0a1?w=900&h=680&fit=crop'
-  },
-  jungle: {
-    cat: 'Jungle Party',
-    detail: 'Green leaves + safari animals · mixed-age winner',
-    bg: '#E4EED6',
-    img: 'https://images.unsplash.com/photo-1533038590840-1cde6e668a91?w=900&h=680&fit=crop'
-  },
-  encanto: {
-    cat: 'Encanto Party',
-    detail: 'Butterflies and full color bloom · new this year',
-    bg: '#FFE9D8',
-    img: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=900&h=680&fit=crop'
-  },
-  pirate: {
-    cat: 'Pirate Party',
-    detail: 'Treasure map setup with sail backdrop · age 6+',
-    bg: '#EADFCF',
-    img: 'https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=900&h=680&fit=crop'
-  },
-  frozen: {
-    cat: 'Frozen Party',
-    detail: 'Ice-blue with snowflake arch · perennial top 3',
-    bg: '#D4E7F5',
-    img: 'https://images.unsplash.com/photo-1520869309377-88c9274a27c2?w=900&h=680&fit=crop'
-  }
+  princess: { cat:'Princess Party', detail:'Pink + gold castle backdrop · set up for a 5th birthday', grad:'linear-gradient(160deg, #FFB3C6 0%, #E04B7C 100%)', icon:'fa-crown' },
+  unicorn:  { cat:'Unicorn Party',  detail:'Pastel rainbow with cloud-arch · age 4–8 favorite',         grad:'linear-gradient(160deg, #E4C1F9 0%, #A277D6 100%)', icon:'fa-hat-wizard' },
+  mickey:   { cat:'Mickey &amp; Minnie', detail:'Classic red, black &amp; polka-dots · toddler hit',    grad:'linear-gradient(160deg, #FF6B6B 0%, #A01A1A 100%)', icon:'fa-circle-user' },
+  mermaid:  { cat:'Little Mermaid', detail:'Teal-gold undersea · mid-summer favorite',                  grad:'linear-gradient(160deg, #70D6C3 0%, #10827A 100%)', icon:'fa-fish-fins' },
+  jungle:   { cat:'Jungle Party',   detail:'Green leaves + safari animals · mixed-age winner',          grad:'linear-gradient(160deg, #A5D668 0%, #3B6F1E 100%)', icon:'fa-tree' },
+  encanto:  { cat:'Encanto Party',  detail:'Butterflies and full color bloom · new this year',          grad:'linear-gradient(160deg, #FFD580 0%, #D95A3C 100%)', icon:'fa-butterfly' },
+  pirate:   { cat:'Pirate Party',   detail:'Treasure map setup with sail backdrop · age 6+',            grad:'linear-gradient(160deg, #C9A676 0%, #5E3821 100%)', icon:'fa-skull-crossbones' },
+  frozen:   { cat:'Frozen Party',   detail:'Ice-blue with snowflake arch · perennial top 3',            grad:'linear-gradient(160deg, #B8E3FF 0%, #3F8EBF 100%)', icon:'fa-snowflake' }
 };
 
 const themeImg = document.getElementById('themeImg');
+const themeIcon = document.getElementById('themeIcon');
 const themePrev = document.getElementById('themePreview');
 const themeCat = document.getElementById('themeCat');
 const themeDetail = document.getElementById('themeDetail');
@@ -2083,8 +2150,8 @@ chips.forEach(c => {
     if (!t) return;
     themeImg.style.opacity = '0';
     setTimeout(() => {
-      themeImg.style.backgroundImage = `url('${t.img}')`;
-      themePrev.style.background = t.bg;
+      themePrev.style.background = t.grad;
+      themeIcon.className = 'fa-sharp fa-solid ' + t.icon;
       themeCat.innerHTML = t.cat;
       themeDetail.innerHTML = t.detail;
       themeImg.style.opacity = '1';
